@@ -9,6 +9,8 @@ config.pixel_width = 1920
 config.background_opacity = 1
 config.max_files_cached = 200
 
+import ssl
+ssl._create_default_https_context = ssl._create_stdlib_context
 
 class Part1_with_voiceover(VoiceoverScene):
     def construct(self):
