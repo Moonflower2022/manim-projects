@@ -17,11 +17,11 @@ class Part1_with_voiceover(VoiceoverScene):
         self.set_speech_service(RecorderService())
         self.wait(1)
 
-        tex = MathTex(r"\sqrt{2} \notin \mathbb{R}", font_size=100, color=BLACK)
+        tex = MathTex(r"\sqrt{2} \notin \mathbb{Q}", font_size=100, color=BLACK)
         with self.voiceover(text="So recently, I've been seeing a lot of “proofs” that the square root of two is irrational.") as tracker:
             self.play(Write(tex))
             
-        other_radicals = MathTex(r"\sqrt{2}, \sqrt{3}, \sqrt{5}, \sqrt{7}, \cdots \notin \mathbb{R}", font_size=100, color=BLACK)
+        other_radicals = MathTex(r"\sqrt{2}, \sqrt{3}, \sqrt{5}, \sqrt{7}, \cdots \notin \mathbb{Q}", font_size=100, color=BLACK)
         with self.voiceover(text="They also extend these proofs to square roots of other prime numbers.") as tracker:
             self.play(ReplacementTransform(tex, other_radicals))
 
@@ -37,7 +37,7 @@ class Part1_with_voiceover(VoiceoverScene):
         with self.voiceover(text="Let me show you: To make things clearer, we set some ground definitions.") as tracker:
             self.play(AnimationGroup(FadeOut(other_radicals), FadeOut(x_lines)))
 
-        rational_def = MathTex(r"x \in \mathbb{R} \iff x = \frac{p}{q}, \text{where } p, q \in \mathbb{Z} \text{ and } \gcd(p, q) = 1", font_size=40, color=BLACK)
+        rational_def = MathTex(r"x \in \mathbb{Q} \iff x = \frac{p}{q}, \text{where } p, q \in \mathbb{Z} \text{ and } \gcd(p, q) = 1", font_size=40, color=BLACK)
         with self.voiceover(text="The definition of a rational number is a number that can be written as, or in other words, is equivalent to, the quotient of two integers with no common factors.") as tracker:
             self.play(Write(rational_def))
 
@@ -213,7 +213,7 @@ class Part1_with_voiceover(VoiceoverScene):
         with self.voiceover(text="And lastly, those two values have no common factors other one, so in other words, their greaters common divisor is one."):
             self.play(rational_def[0][24:].animate.set_color(GREEN_C))
 
-        absurd_identity3 = MathTex(r"\sqrt{2} \in \mathbb{R}", font_size=60, color=BLACK)
+        absurd_identity3 = MathTex(r"\sqrt{2} \in \mathbb{Q}", font_size=60, color=BLACK)
         with self.voiceover(text="Thus, square root two is rational."):
             self.play(ReplacementTransform(Group(rational_def, absurd_identity2), absurd_identity3))
 
