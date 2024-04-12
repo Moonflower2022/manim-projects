@@ -12,7 +12,7 @@ config.max_files_cached = 200
 import ssl
 ssl._create_default_https_context = ssl._create_stdlib_context
 
-class Part1_with_voiceover(VoiceoverScene):
+class Part1_voiceover(VoiceoverScene):
     def construct(self):
         self.set_speech_service(RecorderService())
         self.wait(1)
