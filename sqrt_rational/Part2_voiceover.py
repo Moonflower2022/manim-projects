@@ -81,26 +81,24 @@ class Part2_voiceover(VoiceoverScene):
 
         contradiction_demo = MathTex(
             r"\sqrt{2} \in \mathbb{Q} \Longrightarrow A \text{ and } B?? \Longrightarrow \sqrt{2} \notin \mathbb{Q}",
-            color="WHITE",
+            color=WHITE,
             font_size=40
         )
-        
-        self.wait()
 
         with self.voiceover(
             text="""in fact, the square root of 2 is irrational, and there 
-            is a very common proof that exemplifies this. <bookmark mark='A'/> It is in the format 
-            of a proof by contradiction, where we start by assuming something 
+            is a very common proof that exemplifies this. It is in the format 
+            of a proof by contradiction, <bookmark mark='A'/> where we start by assuming something 
             about sqrt(2) <bookmark mark='B'/> and arriving to a contradiction 
             (in this case, the fact that A and B are both true, something that is impossible) 
-            <bookmark mark='B'/> that shows our original assumption must be incorrect"""
+            <bookmark mark='C'/> that shows our original assumption must be incorrect"""
         ) as tracker:
             self.wait_until_bookmark("A")
             self.play(Write(contradiction_demo[0][:5]))
             self.wait_until_bookmark("B")
-            self.play(Write(contradiction_demo[0][5:34]))
+            self.play(Write(contradiction_demo[0][5:14]))
             self.wait_until_bookmark("C")
-            self.play(Write(contradiction_demo[0][34:]))
+            self.play(Write(contradiction_demo[0][14:]))            
     
         self.play(FadeOut(contradiction_demo))
         
@@ -125,7 +123,7 @@ class Part2_voiceover(VoiceoverScene):
         self.play(rational_def.animate.scale(0.5).to_corner(UL))
 
         irrationality_proof = MathTex(
-            r"\sqrt{2} &= \frac{p}{q} \\ q\sqrt{2} &= p \\ 2q^2 &= p^2 \\ 2q^2 &= (2k)^2 \\ 2q^2 &= 4k^2 \\ q^2 &= 2k^2", 
+            r"\sqrt{2} &= \frac{p}{q} \\ q\sqrt{2} &= p \\ 2q^2 &= p^2 \\ 2q^2 &= (2n)^2 \\ 2q^2 &= 4n^2 \\ q^2 &= 2n^2", 
             font_size=40, 
             color=WHITE
         ).move_to([-2, 0, 0])
@@ -153,10 +151,10 @@ class Part2_voiceover(VoiceoverScene):
             self.play(irrationality_proof[0][13:14].animate.set_color(YELLOW))
             self.play(irrationality_proof[0][13:14].animate.set_color(WHITE))
 
-        odd_int_explaination = MathTex(r"(2k + 1)^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1", color=YELLOW_A, font_size=40).move_to([3.5, 2.5, 0])
+        odd_int_explaination = MathTex(r"(2k + 1)^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1", color=YELLOW_A, font_size=40).move_to([3, 2.5, 0])
         even_int_explaination = MathTex(r"(2k)^2 = 4k^2 = 2(2k^2)", color=YELLOW_A, font_size=40).move_to([3.5, 1.5, 0])
 
-        p_even = MathTex(r"p = 2n", color=WHITE, font_size=40).move_to([0.7, 0.13, 0])
+        p_even = MathTex(r"p = 2n, n \in \mathbb{Z}", color=WHITE, font_size=40).move_to([0.7, 0.13, 0])
 
         with self.voiceover(text="Since an odd integer squared is odd, ") as tracker:
             self.play(Write(odd_int_explaination))
@@ -164,7 +162,7 @@ class Part2_voiceover(VoiceoverScene):
         with self.voiceover(text="and an even integer squared is even, ") as tracker:
             self.play(Write(even_int_explaination))
 
-        with self.voiceover(text="the only way that p^2 can be even is if p is even. <bookmark mark='A'/> This means that p can be represented as two times some integer, which we can call k.") as tracker:
+        with self.voiceover(text="the only way that p^2 can be even is if p is even. <bookmark mark='A'/> This means that p can be represented as two times some integer, which we can call n.") as tracker:
             self.wait_until_bookmark("A")
             self.play(Write(p_even))
 
