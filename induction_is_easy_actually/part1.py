@@ -2,6 +2,9 @@ from manim import *
 from manim_voiceover import VoiceoverScene
 from manim_voiceover.services.recorder import RecorderService
 
+config.pixel_height = 1080
+config.pixel_width = 1920
+
 class AllHorsesSameColorFakeProof(VoiceoverScene):
     def construct(self):
         self.set_speech_service(RecorderService())
@@ -49,20 +52,69 @@ class AllHorsesSameColorFakeProof(VoiceoverScene):
                 self.wait(0.5)
             self.play(FadeOut(series[-1], intro_title, base_eq, inductive_step))
 
+        ### --- EASY INDUCTION EXAMPLE --- ###
+        example_title = Text("Induction Example: n³ + 2n divisible by 3 for n ≥ 1", font_size=36, color=YELLOW)
+        example_title.to_edge(UP, buff=0.5)
 
+        with self.voiceover(text="Let's look at a simpler example: prove that n cubed plus two n is divisible by three for all non-negative integers n.") as tracker:
+            self.play(Write(example_title))
 
+        base_case = MathTex(r"1^3 + 2 \cdot 1 = 3", font_size=36)
+        base_case_result = MathTex(r"3 \div 3 = 1", font_size=36)
+        base_group = VGroup(base_case, base_case_result).arrange(DOWN, aligned_edge=LEFT, buff=0.3)
+        base_group.next_to(example_title, DOWN, buff=0.8)
 
+        with self.voiceover(text="Start with the base case. If n equals one, then the expression is three, which is divisible by three.") as tracker:
+            self.play(Write(base_group))
+            self.wait()
 
+        self.play(FadeOut(base_group))
 
-        # ADD AN EASY EXAMPLE HERE
+        hypo = MathTex(
+            r"\text{Assume } k^3 + 2k \text{ is divisible by } 3",
+            font_size=36
+        )
+        hypo.next_to(example_title, DOWN, buff=0.8)
 
+        with self.voiceover(text="Now assume it holds for some k.") as tracker:
+            self.play(Write(hypo))
+            self.wait()
 
+        step_expr = MathTex(
+            r"(k+1)^3 + 2(k+1)",
+            r"= (k^3 + 3k^2 + 3k + 1) + (2k + 2)",
+            r"= (k^3 + 2k) + 3k^2 + 3k + 3",
+            r"= (k^3 + 2k) + 3(k^2 + k + 1)",
+            font_size=34
+        ).arrange(DOWN, aligned_edge=LEFT, buff=0.3)
+        step_expr.next_to(hypo, DOWN, buff=0.6)
 
+        # Step 1
+        with self.voiceover(text="Check the next case: k + 1. Start by expanding k plus 1 cubed and two times k plus 1.") as tracker:
+            self.play(Write(step_expr[0]))
+            self.play(Write(step_expr[1]))
 
+        # Step 3
+        with self.voiceover(text="We rearrange the terms by grouping k cubed and 2k together.") as tracker:
+            self.play(Write(step_expr[2]))
 
+        # Step 4
+        with self.voiceover(text="Finally, factor 3 from the quadratic expression.") as tracker:
+            self.play(Write(step_expr[3]))
 
+        box = SurroundingRectangle(step_expr[3], color=GREEN)
+        with self.voiceover(text="This expression is a sum of k cubed plus 2k, which is divisible by 3 due to our assumption, and a term that is also divisible by 3 due to its factor of 3.") as tracker:
+            self.play(Create(box))
+            self.wait()
 
+        final_conclusion = Text("Therefore, n cubed plus two n is divisible by 3 for all n greater or equal to 1.", font_size=32, color=GREEN)
+        final_conclusion.to_edge(DOWN, buff=0.5)
 
+        with self.voiceover(text="So by induction, we have shown that the expression is divisible by 3 for all positive integers.") as tracker:
+            self.play(Write(final_conclusion))
+            self.wait()
+
+        self.play(FadeOut(hypo, step_expr, box, example_title, final_conclusion))
 
         ### --- BEGIN FAKE HORSE PROOF --- ###
         title = Text("All Horses are the Same Color", font_size=40, color=YELLOW)
