@@ -1,141 +1,82 @@
 from manim import *
+from manim_voiceover import VoiceoverScene
+from manim_voiceover.services.recorder import RecorderService
 
-class AllHorsesSameColorFakeProof(Scene):
+class AllHorsesSameColorFakeProof(VoiceoverScene):
     def construct(self):
+        self.set_speech_service(RecorderService())
+
         # Title
         title = Text("Fake Proof: All Horses are the Same Color", font_size=40, color=YELLOW)
         title.to_edge(UP, buff=0.5)
-        self.play(Write(title))
+        with self.voiceover(text="Let's look at a classic fake proof that claims all horses are the same color.") as tracker:
+            self.play(Write(title))
+        self.wait()
+        self.play(FadeOut(title))
 
-        # Narration 1
-        narration1 = Paragraph(
-            "We will \"prove\" that all horses are the same color using mathematical induction.",
-            font_size=24,
-            alignment="LEFT",
-            line_spacing=0.8
-        ).to_edge(DOWN, buff=0.5)
-        self.play(Write(narration1))
-        self.wait(3)
-        self.play(FadeOut(narration1))
-
-        # Step 1: Base Case
-        base_case_text = Text("Base Case: A group with 1 horse", font_size=30).to_edge(UP, buff=1.2)
+        # Base case: n = 1
+        base_case_label = Text("Base Case (n = 1)", font_size=30).to_edge(UP, buff=0.5)
         horse1 = Square(color=BLUE).scale(0.5)
         horse1_label = Text("Horse 1", font_size=24).next_to(horse1, DOWN, buff=0.2)
-        base_group = VGroup(horse1, horse1_label).move_to(ORIGIN)
+        group1 = VGroup(horse1, horse1_label).move_to(ORIGIN)
+        with self.voiceover(text="For just one horse, all horses in the group clearly have the same color.") as tracker:
+            self.play(Write(base_case_label))
+            self.play(FadeIn(group1))
+        self.wait()
+        self.play(FadeOut(base_case_label), FadeOut(group1))
 
-        narration2 = Paragraph(
-            "In a group of 1 horse, all horses clearly have the same color.",
-            font_size=24,
-            alignment="LEFT"
-        ).to_edge(DOWN, buff=0.5)
-
-        self.play(Write(base_case_text))
-        self.play(Create(horse1), Write(horse1_label))
-        self.play(Write(narration2))
-        self.wait(3)
-        self.play(FadeOut(base_case_text), FadeOut(base_group), FadeOut(narration2))
-
-        # Step 2: Inductive Hypothesis
-        hypothesis_text = Text("Inductive Hypothesis: Assume true for n horses", font_size=30).to_edge(UP, buff=1.2)
-
-        horses_n = VGroup(*[
-            Square(color=BLUE).scale(0.5) for _ in range(3)
-        ])
+        # Inductive hypothesis: assume for n horses
+        hypothesis_label = Text("Inductive Hypothesis", font_size=30).to_edge(UP, buff=0.5)
+        horses_n = VGroup(*[Square(color=BLUE).scale(0.5) for _ in range(3)])
         horses_n.arrange(RIGHT, buff=0.8)
-        horse_labels = VGroup(*[
-            Text(f"H{i+1}", font_size=24).next_to(horses_n[i], DOWN, buff=0.2) for i in range(3)
-        ])
-        group_n = VGroup(horses_n, horse_labels).move_to(ORIGIN)
+        labels_n = VGroup(*[Text(f"H{i+1}", font_size=24).next_to(horses_n[i], DOWN, buff=0.2) for i in range(3)])
+        group_n = VGroup(horses_n, labels_n).move_to(ORIGIN)
+        with self.voiceover(text="Now, assume that in any group of n horses, they all share the same color.") as tracker:
+            self.play(Write(hypothesis_label))
+            self.play(FadeIn(group_n))
+        self.wait()
+        self.play(FadeOut(hypothesis_label), FadeOut(group_n))
 
-        narration3 = Paragraph(
-            "Assume that in any group of n horses, all horses have the same color.",
-            font_size=24,
-            alignment="LEFT"
-        ).to_edge(DOWN, buff=0.5)
-
-        self.play(Write(hypothesis_text))
-        self.play(Create(horses_n), Write(horse_labels))
-        self.play(Write(narration3))
-        self.wait(3)
-        self.play(FadeOut(hypothesis_text), FadeOut(group_n), FadeOut(narration3))
-
-        # Step 3: Inductive Step
-        inductive_step_text = Text("Inductive Step: Prove for n + 1 horses", font_size=30).to_edge(UP, buff=1.2)
-
-        horses_n1 = VGroup(*[
-            Square(color=BLUE).scale(0.5) for _ in range(4)
-        ])
+        # Inductive step: n+1 horses
+        step_label = Text("Inductive Step (n + 1 horses)", font_size=30).to_edge(UP, buff=0.5)
+        horses_n1 = VGroup(*[Square(color=BLUE).scale(0.5) for _ in range(4)])
         horses_n1.arrange(RIGHT, buff=0.8)
-        horse_n1_labels = VGroup(*[
-            Text(f"H{i+1}", font_size=24).next_to(horses_n1[i], DOWN, buff=0.2) for i in range(4)
-        ])
-        group_n1 = VGroup(horses_n1, horse_n1_labels).move_to(ORIGIN)
+        labels_n1 = VGroup(*[Text(f"H{i+1}", font_size=24).next_to(horses_n1[i], DOWN, buff=0.2) for i in range(4)])
+        group_n1 = VGroup(horses_n1, labels_n1).move_to(ORIGIN)
+        with self.voiceover(text="Let's try to prove the case for n plus one horses.") as tracker:
+            self.play(Write(step_label))
+            self.play(FadeIn(group_n1))
+        self.wait()
 
-        narration4 = Paragraph(
-            "Consider a group of n + 1 horses. Remove the last horse...",
-            font_size=24,
-            alignment="LEFT"
-        ).to_edge(DOWN, buff=0.5)
+        # Subset A: first 3 horses
+        subset_A = horses_n1[:3].copy().arrange(RIGHT, buff=0.8).shift(UP*1.5)
+        label_A = Text("Subset A", font_size=24).next_to(subset_A, UP)
+        with self.voiceover(text="Take the first n horses as subset A.") as tracker:
+            self.play(FadeIn(subset_A), Write(label_A))
 
-        self.play(Write(inductive_step_text))
-        self.play(Create(horses_n1), Write(horse_n1_labels))
-        self.play(Write(narration4))
+        # Subset B: last 3 horses
+        subset_B = horses_n1[1:].copy().arrange(RIGHT, buff=0.8).shift(DOWN*1.5)
+        label_B = Text("Subset B", font_size=24).next_to(subset_B, DOWN)
+        with self.voiceover(text="Now take the last n horses as subset B.") as tracker:
+            self.play(FadeIn(subset_B), Write(label_B))
+
+        # Highlight overlap
+        with self.voiceover(text="These subsets overlap on some horses, so it seems all horses must be the same color.") as tracker:
+            self.play(horses_n1[1].animate.set_color(RED), horses_n1[2].animate.set_color(RED))
+        self.wait()
+
+        # Remove everything
+        with self.voiceover(text="But here's the problem.") as tracker:
+            self.play(FadeOut(step_label, group_n1, subset_A, label_A, subset_B, label_B))
+
+        # Show flaw
+        flaw = Text("Fails at n = 1", font_size=32, color=RED).to_edge(UP)
+        with self.voiceover(text="The overlap trick doesn't work when n equals one. There's no shared horse.") as tracker:
+            self.play(Write(flaw))
+        self.wait()
+
+        outro = Text("This is a fake proof — a flaw in the logic of induction.", font_size=28, color=YELLOW).to_edge(DOWN)
+        with self.voiceover(text="This is a fake proof — a flaw in the logic of induction.") as tracker:
+            self.play(Write(outro))
         self.wait(3)
-
-        # Show subset without last horse
-        subset1 = horses_n1[:3].copy()
-        subset1_group = VGroup(*subset1).arrange(RIGHT, buff=0.8).shift(UP*1.5)
-        label1 = Text("Subset A", font_size=24).next_to(subset1_group, UP)
-
-        self.play(FadeIn(subset1_group), Write(label1))
-        self.wait(2)
-
-        narration5 = Paragraph(
-            "Now remove the first horse. The remaining n horses also have the same color.",
-            font_size=24,
-        ).to_edge(DOWN, buff=0.5)
-        self.play(FadeOut(narration4), Write(narration5))
-
-        subset2 = horses_n1[1:].copy()
-        subset2_group = VGroup(*subset2).arrange(RIGHT, buff=0.8).shift(DOWN*1.5)
-        label2 = Text("Subset B", font_size=24).next_to(subset2_group, DOWN)
-
-        self.play(FadeIn(subset2_group), Write(label2))
-        self.wait(2)
-
-        # Highlight the overlap (H2 and H3)
-        overlap = VGroup(horses_n1[1], horses_n1[2]).copy()
-        self.play(overlap.animate.set_color(RED))
-
-        narration6 = Paragraph(
-            "Since the two subsets overlap, all horses must have the same color... right?",
-            font_size=24
-        ).to_edge(DOWN, buff=0.5)
-
-        self.play(FadeOut(narration5), Write(narration6))
-        self.wait(3)
-
-        # Flawed logic reveal
-        flaw_text = Text("But wait... It fails for n = 1!", font_size=32, color=RED)
-        flaw_text.to_edge(DOWN, buff=1.5)
-
-        self.play(FadeOut(group_n1), FadeOut(subset1_group), FadeOut(subset2_group),
-                  FadeOut(label1), FadeOut(label2), FadeOut(narration6))
-        self.play(Write(flaw_text))
-
-        final_narration = Paragraph(
-            "In the base case, the subsets do not overlap. So the proof breaks at n = 1.",
-            font_size=24
-        ).to_edge(DOWN, buff=0.5)
-        self.play(Write(final_narration))
-        self.wait(3)
-
-        outro = Text("This is a classic example of a *fake proof* using faulty induction.", font_size=30, color=YELLOW)
-        outro.to_edge(DOWN)
-        self.play(FadeOut(flaw_text, final_narration))
-        self.play(Write(outro))
-        self.wait(3)
-
-        # End
-        self.play(FadeOut(outro, title))
+        self.play(FadeOut(flaw, outro))
