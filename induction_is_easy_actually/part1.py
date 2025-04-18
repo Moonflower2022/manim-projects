@@ -5,7 +5,7 @@ from manim_voiceover.services.recorder import RecorderService
 config.pixel_height = 1080
 config.pixel_width = 1920
 
-class AllHorsesSameColorFakeProof(VoiceoverScene):
+class InductionVideo(VoiceoverScene):
     def construct(self):
         self.set_speech_service(RecorderService())
 
@@ -110,7 +110,7 @@ class AllHorsesSameColorFakeProof(VoiceoverScene):
         final_conclusion = Text("Therefore, n cubed plus two n is divisible by 3 for all n greater or equal to 1.", font_size=32, color=GREEN)
         final_conclusion.to_edge(DOWN, buff=0.5)
 
-        with self.voiceover(text="So by induction, we have shown that the expression is divisible by 3 for all positive integers.") as tracker:
+        with self.voiceover(text="This completes our induction, so we have shown that our expression, n cubed plus two n, is divisible by 3 for all positive integers n.") as tracker:
             self.play(Write(final_conclusion))
             self.wait()
 
@@ -125,7 +125,7 @@ class AllHorsesSameColorFakeProof(VoiceoverScene):
         self.play(FadeOut(title))
 
         horse = ImageMobject("induction_is_easy_actually/horse.png")
-        with self.voiceover(text="Also, because I'm lazy, just assume that the squares on screen are horses.") as tracker:
+        with self.voiceover(text="Also, because I'm lazy, just assume that all the squares on screen are horses.") as tracker:
             self.play(FadeIn(horse))
         self.wait()
         self.play(FadeOut(horse))
@@ -135,7 +135,7 @@ class AllHorsesSameColorFakeProof(VoiceoverScene):
         horse1 = Square(color=BLUE).scale(0.5)
         horse1_label = Text("Horse 1", font_size=24).next_to(horse1, DOWN, buff=0.2)
         group1 = VGroup(horse1, horse1_label).move_to(ORIGIN)
-        with self.voiceover(text="For just one horse, all horses in the group clearly have the same color.") as tracker:
+        with self.voiceover(text="For just one horse, all horses in the group clearly have the same color. This is our base case.") as tracker:
             self.play(Write(base_case_label))
             self.play(FadeIn(group1))
             self.play(horse1.animate.set_color(RED))
