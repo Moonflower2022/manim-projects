@@ -56,7 +56,7 @@ class InductionVideo(VoiceoverScene):
         example_title = Text("Induction Example: n³ + 2n divisible by 3 for n ≥ 1", font_size=36, color=YELLOW)
         example_title.to_edge(UP, buff=0.5)
 
-        with self.voiceover(text="Let's look at a simpler example: prove that n cubed plus two n is divisible by three for all non-negative integers n.") as tracker:
+        with self.voiceover(text="Let's look at a simpler example: prove that n cubed plus two n is divisible by three for all positive integers n.") as tracker:
             self.play(Write(example_title))
 
         base_case = MathTex(r"1^3 + 2 \cdot 1 = 3", font_size=36)
